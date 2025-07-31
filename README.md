@@ -1,133 +1,132 @@
-# APK2AAB
+<h1 align="center">📦 APK2AAB Converter</h1>
 
-## Windows-exe
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Android-blue.svg" />
+  <img src="https://img.shields.io/badge/Language-Java%20%7C%20.NET-purple.svg" />
+  <img src="https://img.shields.io/badge/Manual%20Support-Yes-green.svg" />
+</p>
 
-Exe file found in APK2AAB\Windows-exe\APK2AAb.exe <br />
+> **Convert your APKs to AAB (Android App Bundles) with ease.**  
+> Use Windows, Android, or manual tools — complete guide below.  
+> ⚠️ **Note:** APK2AAB (exe & apk tools) are no longer maintained due to time limitations. Manual method still works.
 
-Download .Net 6.0 runtime https://dotnet.microsoft.com/en-us/download/dotnet/6.0 & Java 8 & add to system variable <br />
+---
 
-Selected apk & out put aab path should not contain any space in directory <br />
-Min-sdk , target sdk , version name & code  should be same as your apk have in AndroidManifest.xml<br />
-You need to sign the generated aab file with your keystore in order to publish the application in play store <br />
+## 📥 Windows EXE Tool
 
-## Android-Tool <br />
+📍 Location: `APK2AAB/Windows-exe/APK2AAb.exe`
 
-Apk file found in APK2AAB\Android-Tool\APK2AAb.apk<br />
+### 🛠 Requirements:
+- [.NET 6.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [Java 8](https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html) (Add to system environment variables)
 
-Download the application and install it <br />
-Pick the apk and select output path for aab file <br />
-Your file generate in output path<br />
-You need to sign the generated aab file with your keystore in order to publish the application in play store <br />
+### ⚙️ Usage:
+- Ensure your APK and output AAB paths have **no spaces**
+- Set same values in `AndroidManifest.xml`:
+  - `minSdkVersion`
+  - `targetSdkVersion`
+  - `versionName`
+  - `versionCode`
+- Output AAB must be **signed** before uploading to Play Store
 
-## Manual-way <br />
+---
 
-Tools are required<br />
+## 📱 Android APK Tool
 
-Bundletool.jar 
-https://github.com/google/bundletool/releases<br />
+📍 Location: `APK2AAB/Android-Tool/APK2AAb.apk`
 
-Apktool.jar
-https://github.com/iBotPeaches/Apktool<br />
+### 🚀 Steps:
+1. Install the APK on your Android device
+2. Pick the APK file and choose output path
+3. AAB will be generated at selected location
+4. Sign it with your keystore before Play Store release
 
-Aapt2.exe
-https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2/4.2.1-7147631/aapt2-4.2.1-7147631-windows.jar<br />
+---
 
-Android.jar
-Get the ANDROID SDK: $ANDROID_SDK/platforms/android-$latestVersion/android.jar<br />
+## 🔧 Manual Method (Fully Functional)
 
-Jave 8 https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html <br />
-Add to system variable https://www.java.com/en/download/help/path.html <br />
+### 🔩 Required Tools:
+| Tool | Link |
+|------|------|
+| Bundletool | [Download](https://github.com/google/bundletool/releases) |
+| Apktool | [Download](https://github.com/iBotPeaches/Apktool) |
+| AAPT2 | [Download](https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2/4.2.1-7147631/aapt2-4.2.1-7147631-windows.jar) |
+| Android.jar | Provided in Android SDK |
+| Java 8 | [Download](https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html) |
 
-**Unzip the apk**<br />
+Add Java to system path: [Help Guide](https://www.java.com/en/download/help/path.html)
 
-Put all tool files in one folder <br />
-Open your command prompt in current directory <br />
-Decompile the apk through apktool.jar
+---
 
-execute below command in command line
-```
+### 📂 Step-by-Step Instructions:
+
+#### 1. **Unzip APK**
+
+```bash
 java -jar apktool_2.5.0.jar d test.apk -s -o decompile_apk -f
 ```
 
-**Compile the resource**
+#### 2. **Compile Resources**
 
-Compile the resources using aapt2 <br />
-
-```
+```bash
 aapt2.exe compile --dir decompile_apk\res -o res.zip
 ```
-After that you will see a res.zip will generate in your current directory <br />
 
-**Link the resources**
+#### 3. **Link Resources**
 
-execute below command in command line <br />
-```
-aapt2.exe link --proto-format -o base.zip -I android.jar --manifest decompile_apk\AndroidManifest.xml --min-sdk-version $version --target-sdk-version $version --version-code $version --version-name $version -R res.zip --auto-add-overlay
-```
-<br />
+Replace variables with your values:
 
-**$version** should be replace with your apk version for example my apk have **min-sdk is 7** , **target-sdk is 30** , **version-code is 1** , **verison-name is 1.0** . So my command will be -> <br />
-
-```
-aapt2.exe link --proto-format -o base.zip -I android.jar --manifest decompile_apk\AndroidManifest.xml --min-sdk-version 7 --target-sdk-version 30 --version-code 1 --version-name 1.0 -R res.zip --auto-add-overlay
+```bash
+aapt2.exe link --proto-format -o base.zip -I android.jar --manifest decompile_apk\AndroidManifest.xml \
+--min-sdk-version 7 --target-sdk-version 30 --version-code 1 --version-name 1.0 \
+-R res.zip --auto-add-overlay
 ```
 
-After that you will see a base.zip will generate in your current directory <br />
+#### 4. **Prepare Final AAB Structure**
 
-**Unzip the base.zip** <br />
-
-Directory structure: <br />
+Unzip `base.zip`, and prepare directory as below:
 
 ```
 base/
-/AndroidManifest.xml
-/res
-/resources.pb
+├── assets/
+├── dex/
+├── lib/
+├── manifest/AndroidManifest.xml
+├── res/
+├── root/
+│   └── kotlin/
+└── resources.pb
 ```
 
+#### 5. **Create base.zip**
 
-**Copy the files**
- <br />
-Take base folder as your main folder for now ! <br />
-Create a folder **manifest** name folder inside base folder and move your base/AndroidManifest.xml to manifest/AndroidManifest.xml <br />
-copy whole assets folder from decompile_apk/assets and paste to base/assets <br />
-copy lib folder from decompile_apk/lib  and paste to base/lib <br />
-copy all files inside unknown folder from decompile_apk/unknown and paste to base/root <br />
-copy whole kotlin folder from decompile_apk/kotlin and paste to base/root/kotlin <br />
+From inside `/base` folder:
 
-Final directory structure <br />
-
-```
-base/
-/assets
-/dex
-/lib
-/manifest
-/res
-/root
-/resources.pb
-```
-**Create a zip** <br />
-
-Open your command prompt in **/base** directory <br />
-
-we are going to create a zip using cmd or you can use any software like Winrar & 7zip <br />
-
-execute below command in command line <br />
-```
+```bash
 jar cMf base.zip manifest dex res root lib assets resources.pb
 ```
 
-It will create **base.zip** in current directory now copy the base.zip and paste where you put all tool file (.jars , .exe) <br />
+#### 6. **Generate AAB**
 
-**Compile aab** <br />
-Open your command prompt in **/tools** directory <br />
+From your tools directory:
 
-execute below command in command line  <br />
-```
+```bash
 java -jar bundletool.jar build-bundle --modules=base.zip --output=base.aab
 ```
 
-**base.aab** file will generate in current folder <br />
-You need to sign the generated aab file with your keystore in order to publish the application in play store <br />
+🎉 Your `.aab` file is ready!  
+📌 Don't forget to **sign it** with your keystore before publishing to Play Store.
 
+---
+
+## 💡 Final Notes
+
+- GUI tools (EXE/APK) are deprecated but still available
+- Manual method is **tested** and fully functional
+- Contributions, forks, or updates are welcome!
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/Anmol-In-Verse">Anmol-in-Verse</a>
+</p>
